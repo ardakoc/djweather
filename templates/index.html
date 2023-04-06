@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Django Weather Api</title>
+    </head>
+    <body>
+        <nav class="main-nav">
+            <h1>DJWEATHER</h1>
+        </nav>
+
+        <section class="container">
+            <form class="search-form" action="{% url 'weather' %}" method="GET">
+                <div class="form-input-group">
+                    <label for="city">Search city:</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="form-action-group">
+                    <input type="submit" value="Search">
+                </div>
+            </form>                
+            {% if weather %}
+                <div class="search-results">
+                    {{ weather }}
+                </div>                
+            {% endif %}
+        </section>
+    </body>
+</html>
