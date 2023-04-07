@@ -29,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-API_KEY = os.environ.get('API_KEY')
+WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
+GEOLOCATION_API_KEY = os.environ.get('GEOLOCATION_API_KEY')
 
 
 # Application definition
