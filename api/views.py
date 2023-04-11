@@ -12,7 +12,17 @@ def home(request):
         response = requests.get(
             f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
         response = response.json()
-        return render(request, "index.html", {'response': response})
+        return render(request, "index.html", {
+            'location': response['location']['name'],
+            'localtime': response['location']['localtime'],
+            'temperature': response['current']['temp_c'],
+            'feels_like': response['current']['feelslike_c'],
+            'condition': response['current']['condition']['text'],
+            'icon': response['current']['condition']['icon'],
+            'wind': response['current']['wind_kph'],
+            'wind_direction': response['current']['wind_dir'],
+            'humidity': response['current']['humidity'],
+            'uv_index': response['current']['uv'] })
     return render(request, "index.html")
 
 
