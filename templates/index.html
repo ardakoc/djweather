@@ -1,30 +1,49 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
         <title>Django Weather Api</title>
     </head>
     <body>
         <nav class="main-nav">
-            <h1>DJWEATHER</h1>
+            <ul class="menu">
+                <li><a title="Home" class="menu-logo" href="{% url 'home' %}"><i class="fa-solid fa-temperature-full"></i></a></li>
+                <div class="nav-buttons">
+                    <li><a title="Search location" class="menu-btn" href="#"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    <li><a title="My favorite places" class="menu-btn" href="#"><i class="fa-regular fa-heart"></i></a></li>
+                    <li><a title="Capitals" class="menu-btn" href="#"><i class="fa-solid fa-earth-americas"></i></a></li>
+                    <li><a title="Random city" class="menu-btn" href="#"><i class="fa-solid fa-shuffle"></i></a></li>
+                </div>
+            </ul>
         </nav>
 
         <section class="container">
+            <div class="search-results">
+                <h1 class="location-name">{{ response.location.name }}</h1>
+                <p class="localtime">{{ response.location.localtime }}</p>
+                <p class="temperature">{{ response.current.temp_c}}</p>
+                <p class="condition-description"><img class="condition-description-img" src="{{ response.current.condition.icon }}" /> {{ response.current.condition.text }}</p>
+                <p class="feels-like">Feels like: {{ response.current.feelslike_c }}
+            </div>
             <form class="search-form" action="{% url 'search' %}" method="GET">
                 <div class="form-input-group">
                     <label for="city">Search city:</label>
-                    <input type="text" id="city" name="city" required>
+                    <input type="text" id="city" name="city">
                 </div>
                 <div class="form-action-group">
-                    <input type="submit" value="Search">
+                    <input type="submit" class="search-btn" value="Search">
                 </div>
-            </form>                
-            {% if weather %}
-                <div class="search-results">
-                    {{ weather }}
-                </div>                
-            {% endif %}
+            </form>
         </section>
     </body>
 </html>

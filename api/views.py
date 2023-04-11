@@ -11,20 +11,23 @@ def home(request):
     if city != None:
         response = requests.get(
             f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
-        weather = response.json()
-        return render(request, "index.html", {'weather': weather})
+        response = response.json()
+        return render(request, "index.html", {'response': response})
     return render(request, "index.html")
 
 
 def search(request):
     if request.method == 'GET':
         city = request.GET.get('city')
+
+        if city == '':
+            city = find_location(request)
         
         if city != None:
             response = requests.get(
                 f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
-            weather = response.json()
-            return render(request, "index.html", {'weather': weather})
+            response = response.json()
+            return render(request, "index.html", {'response': response})
         return render(request, "index.html")
     
 
