@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Weather in capitals{% endblock title %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/weather.css' %}">
+    <link rel="stylesheet" href="{% static 'css/capitals.css' %}">
+
+    <section class="capitals-page">
+        <h2 class="capitals-page-title">The weather in world capitals:</h2>
+        {% for capital, value in capitals.items %}
+            <div class="weather">
+                <div class="location">
+                    <h1 class="location-name">{{ value.location }}</h1>
+                    <p class="country">{{ value.country }}</p>
+                    <p class="localtime">{{ value.localtime }}</p>
+                    <p class="temperature">{{ value.temperature|floatformat }}°C</p>
+                </div>
+                <fieldset class="weather-box condition">
+                    <legend class="box-title">Condition</legend>
+                    <img class="condition-description-icon" src="{{ value.icon }}" />
+                    <p class="condition-description">{{ value.condition }} </p>
+                    <i class="fa-solid fa-temperature-half feels-like-icon"></i>
+                    <p class="feels-like">Feels like <span class="feels-like-tmp">{{ value.feels_like }}°C</span></p>
+                </fieldset>
+                <fieldset class="weather-box wind">
+                    <legend class="box-title">Wind</legend>
+                    <i class="fa-solid fa-wind wind-speed-icon"></i>
+                    <p class="wind-speed">{{ value.wind }} <span class="wind-speed-unit">km/h</span></p>
+                    <i class="fa-regular fa-compass wind-direction-icon"></i>
+                    <p class="wind-direction">{{ value.wind_direction }}</p>
+                </fieldset>
+                <fieldset class="weather-box uv">
+                    <legend class="box-title">UV Index</legend>
+                    <i class="fa-regular fa-sun uv-icon"></i>
+                    <p class="uv-index">{{ value.uv_index }}</p>
+                </fieldset>
+                <fieldset class="weather-box humidity">
+                    <legend class="box-title">Humidity</legend>
+                    <i class="fa-solid fa-water humidity-icon"></i>
+                    <p class="humidity-percentage">{{ value.humidity }}<span class="percentage">%</span></p>
+                </fieldset>
+            </div>
+        {% endfor %}
+    </section>
+    
+{% endblock content %}

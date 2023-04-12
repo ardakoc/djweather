@@ -10,7 +10,7 @@ def home(request):
     city = find_location(request)
     if city != None:
         response = requests.get(
-            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
+            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
         response = response.json()
         return render(request, "home.html", {
             'location': response['location']['name'],
@@ -22,8 +22,9 @@ def home(request):
             'wind': response['current']['wind_kph'],
             'wind_direction': response['current']['wind_dir'],
             'humidity': response['current']['humidity'],
-            'uv_index': response['current']['uv'] })
-    return render(request, "home.html")
+            'uv_index': response['current']['uv'],
+            'air_quality': response['current']['air_quality']['us-epa-index'] })
+    return render(request, 'home.html')
 
 
 def search(request):
@@ -48,7 +49,51 @@ def search(request):
                 'wind_direction': response['current']['wind_dir'],
                 'humidity': response['current']['humidity'],
                 'uv_index': response['current']['uv'] })
-        return render(request, "search.html")
+        return render(request, 'search.html')
+    
+
+def get_capitals(request):
+    cities = [
+        'Washington DC',
+        'London',
+        'Rome',
+        'Paris',
+        'Madrid',
+        'Moscow',
+        'Berlin',
+        'Amsterdam',
+        'Bern',
+        'Ankara',
+        'Sydney',
+        'Abu Dhabi',
+        'Doha',
+        'Riyadh',
+        'Jerusalem',
+        'Beijing',
+        'Tokyo',
+        'Ottawa',
+        'Buenos Aires',
+        'New Delhi',
+    ]
+
+    capitals = {}
+    for city in cities:
+        response = requests.get(
+            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
+        response = response.json()
+        capitals[city] = {
+                'location': response['location']['name'],
+                'country': response['location']['country'],
+                'localtime': response['location']['localtime'],
+                'temperature': response['current']['temp_c'],
+                'feels_like': response['current']['feelslike_c'],
+                'condition': response['current']['condition']['text'],
+                'icon': response['current']['condition']['icon'],
+                'wind': response['current']['wind_kph'],
+                'wind_direction': response['current']['wind_dir'],
+                'humidity': response['current']['humidity'],
+                'uv_index': response['current']['uv'] }
+    return render(request, 'capitals.html', {'capitals': capitals})
     
 
 def find_location(request):

@@ -5,7 +5,7 @@
 {% block title %}Weather in {{ location }}{% endblock title %}
 
 {% block content %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/weather.css' %}">
 
     <div class="weather">
         <div class="location">
@@ -22,20 +22,37 @@
         </fieldset>
         <fieldset class="weather-box wind">
             <legend class="box-title">Wind</legend>
-            <i class="fa-solid fa-wind wind-speed-icon"></i>
+            <i class="fa-solid fa-wind item-icon"></i>
             <p class="wind-speed">{{ wind }} <span class="wind-speed-unit">km/h</span></p>
-            <i class="fa-regular fa-compass wind-direction-icon"></i>
+            <i class="fa-regular fa-compass item-icon-2"></i>
             <p class="wind-direction">{{ wind_direction }}</p>
         </fieldset>
         <fieldset class="weather-box uv">
             <legend class="box-title">UV Index</legend>
-            <i class="fa-regular fa-sun uv-icon"></i>
+            <i class="fa-regular fa-sun item-icon"></i>
             <p class="uv-index">{{ uv_index }}</p>
         </fieldset>
         <fieldset class="weather-box humidity">
             <legend class="box-title">Humidity</legend>
-            <i class="fa-solid fa-water humidity-icon"></i>
+            <i class="fa-solid fa-water item-icon"></i>
             <p class="humidity-percentage">{{ humidity }}<span class="percentage">%</span></p>
         </fieldset>
+        <fieldset class="weather-box air-quality">
+            <legend class="box-title">Air quality</legend>
+            <i class="fa-solid fa-head-side-mask item-icon"></i>
+            {% if air_quality == 1 %}
+                <p class="air-quality-index q-good">Good</p>
+            {% elif air_quality == 2 %}
+                <p class="air-quality-index q-moderate">Moderate</p>
+            {% elif air_quality == 3 %}
+                <p class="air-quality-index q-unhealthy-sensitive">Unhealthy for sensitive group</p>
+            {% elif air_quality == 4 %}
+                <p class="air-quality-index q-unhealthy">Unhealthy</p>
+            {% elif air_quality == 5 %}
+                <p class="air-quality-index q-very-unhealthy">Very Unhealthy</p>
+            {% elif air_quality == 6 %}
+            <p class="air-quality-index q-hazardous">Hazardous</p>
+            {% endif %}
+            </fieldset>
     </div>
 {% endblock content %}

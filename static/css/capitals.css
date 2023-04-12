@@ -1,0 +1,16 @@
+.capitals-page {
+    width: 1200px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+}
+
+.country {
+    font-size: 12px;
+}
+
+.weather:last-child {
+    margin-bottom: 64px;
+}
