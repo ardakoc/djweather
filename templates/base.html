@@ -1,0 +1,34 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+        <title>{% block title %}Weather in {{ location }}{% endblock title %}</title>
+    </head>
+    <body>
+        <nav class="main-nav">
+            <ul class="menu">
+                <li><a title="Home" class="menu-logo" href="{% url 'home' %}"><i class="fa-solid fa-cloud-sun-rain"></i></a></li>
+                <div class="nav-buttons">
+                    <li><a title="Search location" class="menu-btn" href="{% url 'search' %}"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    <li><a title="My favorite places" class="menu-btn" href="#"><i class="fa-regular fa-heart"></i></a></li>
+                    <li><a title="Capitals" class="menu-btn" href="#"><i class="fa-solid fa-earth-americas"></i></a></li>
+                    <li><a title="Random city" class="menu-btn" href="#"><i class="fa-solid fa-shuffle"></i></a></li>
+                </div>
+            </ul>
+        </nav>
+
+        <section class="container">
+            {% block content %}{% endblock content %}
+        </section>
+    </body>
+</html> 

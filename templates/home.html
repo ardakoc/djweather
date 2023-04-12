@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Weather in {{ location }}{% endblock title %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <div class="weather">
+        <div class="location">
+            <h1 class="location-name">{{ location }}</h1>
+            <p class="localtime">{{ localtime }}</p>
+            <p class="temperature">{{ temperature|floatformat }}°C</p>
+        </div>
+        <fieldset class="weather-box condition">
+            <legend class="box-title">Condition</legend>
+            <img class="condition-description-icon" src="{{ icon }}" />
+            <p class="condition-description">{{ condition }} </p>
+            <i class="fa-solid fa-temperature-half feels-like-icon"></i>
+            <p class="feels-like">Feels like <span class="feels-like-tmp">{{ feels_like }}°C</span></p>
+        </fieldset>
+        <fieldset class="weather-box wind">
+            <legend class="box-title">Wind</legend>
+            <i class="fa-solid fa-wind wind-speed-icon"></i>
+            <p class="wind-speed">{{ wind }} <span class="wind-speed-unit">km/h</span></p>
+            <i class="fa-regular fa-compass wind-direction-icon"></i>
+            <p class="wind-direction">{{ wind_direction }}</p>
+        </fieldset>
+        <fieldset class="weather-box uv">
+            <legend class="box-title">UV Index</legend>
+            <i class="fa-regular fa-sun uv-icon"></i>
+            <p class="uv-index">{{ uv_index }}</p>
+        </fieldset>
+        <fieldset class="weather-box humidity">
+            <legend class="box-title">Humidity</legend>
+            <i class="fa-solid fa-water humidity-icon"></i>
+            <p class="humidity-percentage">{{ humidity }}<span class="percentage">%</span></p>
+        </fieldset>
+    </div>
+{% endblock content %}

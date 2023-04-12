@@ -1,0 +1,193 @@
+.weather {
+    padding: 32px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: #959da533 0px 8px 24px;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    column-gap: 64px;
+    row-gap: 8px;
+}
+
+.box-title {
+    font-size: 12px;
+    color: #555;
+    padding: 0 0.8em;
+}
+
+.location {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.localtime {
+    font-size: 12px;
+    color: #555;
+}
+
+.temperature {
+    font-size: 32px;
+}
+
+.weather-box {
+    background-color: #f9f9f9;
+    padding: 8px 20px 16px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    display: grid;
+    grid-template-columns: 20px auto;
+    gap: 12px;
+}
+
+.condition {
+    font-size: 14px;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.condition-description-icon {
+    width: 20px;
+    height: auto;
+
+    grid-column: 1;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.condition-description {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.feels-like-icon {
+    font-size: 16px;
+    grid-column: 1;
+    grid-row: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feels-like {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.feels-like-tmp {
+    font-size: 24px;
+}
+
+.wind {
+    font-size: 14px;
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.wind-speed-icon {
+    grid-column: 1;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wind-speed {
+    font-size: 24px;
+    grid-column: 2;
+    grid-row: 1;
+    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wind-speed-unit {
+    font-size: 14px;
+}
+
+.wind-direction-icon {
+    grid-column: 1;
+    grid-row: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wind-direction {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.uv {
+    font-size: 14px;
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.uv-icon {
+    grid-column: 1;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.uv-index {
+    font-size: 24px;
+    grid-column: 2;
+    grid-row: 1;
+    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.humidity {
+    font-size: 14px;
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.humidity-icon {
+    grid-column: 1;
+    grid-row: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.humidity-percentage {
+    font-size: 24px;
+    grid-column: 2;
+    grid-row: 1;
+    
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.percentage {
+    font-size: 16px;
+}
