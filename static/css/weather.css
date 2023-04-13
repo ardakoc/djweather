@@ -1,3 +1,18 @@
+.home-page {
+    max-width: 1200px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+}
+
+.center-horizontal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .weather {
     padding: 32px;
     border: 1px solid #ccc;
@@ -6,8 +21,8 @@
 
     display: grid;
     grid-template-columns: 1fr 2fr 2fr;
-    column-gap: 64px;
-    row-gap: 8px;
+    column-gap: 32px;
+    row-gap: 16px;
 }
 
 .box-title {
@@ -19,6 +34,7 @@
 .location {
     grid-column: 1;
     grid-row: 1;
+    max-height: 103.78px;
 }
 
 .localtime {
@@ -154,6 +170,26 @@
     gap: 8px;
 }
 
+.uv-low {
+    color: #008000;
+}
+
+.uv-moderate {
+    color: #c6c324;
+}
+
+.uv-high {
+    color: #ff730f;
+}
+
+.uv-very-high {
+    color: #ff0000;
+}
+
+.uv-extreme {
+    color: #731b73;
+}
+
 .humidity {
     font-size: 14px;
     grid-column: 3;
@@ -189,11 +225,11 @@
 }
 
 .q-moderate {
-    color: #277c27;
+    color: #c6c324;
 }
 
 .q-unhealthy-sensitive {
-    color: #dad723;
+    color: #ff730f;
 }
 
 .q-unhealthy {
@@ -201,9 +237,23 @@
 }
 
 .q-very-unhealthy {
-    color: #d31414;
+    color: #c41414;
 }
 
 .q-hazardous {
     color: #ff0000;
+}
+
+.astronomy {
+    font-size: 14px;
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.sunrise {
+    color: #ffc400;
+}
+
+.sunset {
+    color: #bb7102;
 }

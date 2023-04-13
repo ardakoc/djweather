@@ -6,24 +6,37 @@ from django.shortcuts import render, HttpResponse
 from djweather.settings import WEATHER_API_KEY, GEOLOCATION_API_KEY
 
 
+
+
+
 def home(request):
     city = find_location(request)
     if city != None:
         response = requests.get(
             f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
         response = response.json()
+        response1 = requests.get(
+            f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
+        response1 = response1.json()
+
+        location = response['location']
+        current = response['current']
+        astronomy = response1['astronomy']['astro']
+
         return render(request, "home.html", {
-            'location': response['location']['name'],
-            'localtime': response['location']['localtime'],
-            'temperature': response['current']['temp_c'],
-            'feels_like': response['current']['feelslike_c'],
-            'condition': response['current']['condition']['text'],
-            'icon': response['current']['condition']['icon'],
-            'wind': response['current']['wind_kph'],
-            'wind_direction': response['current']['wind_dir'],
-            'humidity': response['current']['humidity'],
-            'uv_index': response['current']['uv'],
-            'air_quality': response['current']['air_quality']['us-epa-index'] })
+            'location': location['name'],
+            'localtime': location['localtime'],
+            'temperature': current['temp_c'],
+            'feels_like': current['feelslike_c'],
+            'condition': current['condition']['text'],
+            'icon': current['condition']['icon'],
+            'wind': current['wind_kph'],
+            'wind_direction': current['wind_dir'],
+            'humidity': current['humidity'],
+            'uv_index': current['uv'],
+            'air_quality': current['air_quality']['us-epa-index'],
+            'sunrise': astronomy['sunrise'],
+            'sunset': astronomy['sunset'] })
     return render(request, 'home.html')
 
 
@@ -35,20 +48,31 @@ def search(request):
             city = find_location(request)
         elif city != None:
             response = requests.get(
-                f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
+                f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
             response = response.json()
+            response1 = requests.get(
+                f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
+            response1 = response1.json()
+
+            location = response['location']
+            current = response['current']
+            astronomy = response1['astronomy']['astro']
+
             return render(request, "search.html", {
                 'search': True,
-                'location': response['location']['name'],
-                'localtime': response['location']['localtime'],
-                'temperature': response['current']['temp_c'],
-                'feels_like': response['current']['feelslike_c'],
-                'condition': response['current']['condition']['text'],
-                'icon': response['current']['condition']['icon'],
-                'wind': response['current']['wind_kph'],
-                'wind_direction': response['current']['wind_dir'],
-                'humidity': response['current']['humidity'],
-                'uv_index': response['current']['uv'] })
+                'location': location['name'],
+                'localtime': location['localtime'],
+                'temperature': current['temp_c'],
+                'feels_like': current['feelslike_c'],
+                'condition': current['condition']['text'],
+                'icon': current['condition']['icon'],
+                'wind': current['wind_kph'],
+                'wind_direction': current['wind_dir'],
+                'humidity': current['humidity'],
+                'uv_index': current['uv'],
+                'air_quality': current['air_quality']['us-epa-index'],
+                'sunrise': astronomy['sunrise'],
+                'sunset': astronomy['sunset'] })
         return render(request, 'search.html')
     
 
@@ -79,20 +103,31 @@ def get_capitals(request):
     capitals = {}
     for city in cities:
         response = requests.get(
-            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
+            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
         response = response.json()
+        response1 = requests.get(
+            f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
+        response1 = response1.json()
+
+        location = response['location']
+        current = response['current']
+        astronomy = response1['astronomy']['astro']
+
         capitals[city] = {
-                'location': response['location']['name'],
-                'country': response['location']['country'],
-                'localtime': response['location']['localtime'],
-                'temperature': response['current']['temp_c'],
-                'feels_like': response['current']['feelslike_c'],
-                'condition': response['current']['condition']['text'],
-                'icon': response['current']['condition']['icon'],
-                'wind': response['current']['wind_kph'],
-                'wind_direction': response['current']['wind_dir'],
-                'humidity': response['current']['humidity'],
-                'uv_index': response['current']['uv'] }
+                'location': location['name'],
+                'country': location['country'],
+                'localtime': location['localtime'],
+                'temperature': current['temp_c'],
+                'feels_like': current['feelslike_c'],
+                'condition': current['condition']['text'],
+                'icon': current['condition']['icon'],
+                'wind': current['wind_kph'],
+                'wind_direction': current['wind_dir'],
+                'humidity': current['humidity'],
+                'uv_index': current['uv'],                 
+                'air_quality': current['air_quality']['us-epa-index'],
+                'sunrise': astronomy['sunrise'],
+                'sunset': astronomy['sunset'] }
     return render(request, 'capitals.html', {'capitals': capitals})
     
 

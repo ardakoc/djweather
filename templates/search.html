@@ -20,35 +20,70 @@
         </form>
 
         {% if search %}
+            <h2 class="search-page-title">Search results:</h2>
             <div class="weather">
                 <div class="location">
                     <h1 class="location-name">{{ location }}</h1>
                     <p class="localtime">{{ localtime }}</p>
                     <p class="temperature">{{ temperature|floatformat }}°C</p>
                 </div>
-                <fieldset class="weather-box condition">
+                <fieldset class="weather-box center-horizontal condition">
                     <legend class="box-title">Condition</legend>
                     <img class="condition-description-icon" src="{{ icon }}" />
                     <p class="condition-description">{{ condition }} </p>
                     <i class="fa-solid fa-temperature-half feels-like-icon"></i>
                     <p class="feels-like">Feels like <span class="feels-like-tmp">{{ feels_like }}°C</span></p>
                 </fieldset>
-                <fieldset class="weather-box wind">
+                <fieldset class="weather-box center-horizontal wind">
                     <legend class="box-title">Wind</legend>
-                    <i class="fa-solid fa-wind wind-speed-icon"></i>
+                    <i class="fa-solid fa-wind item-icon"></i>
                     <p class="wind-speed">{{ wind }} <span class="wind-speed-unit">km/h</span></p>
-                    <i class="fa-regular fa-compass wind-direction-icon"></i>
+                    <i class="fa-regular fa-compass item-icon-2"></i>
                     <p class="wind-direction">{{ wind_direction }}</p>
                 </fieldset>
-                <fieldset class="weather-box uv">
+                <fieldset class="weather-box center-horizontal uv">
                     <legend class="box-title">UV Index</legend>
-                    <i class="fa-regular fa-sun uv-icon"></i>
-                    <p class="uv-index">{{ uv_index }}</p>
+                    <i class="fa-solid fa-umbrella-beach item-icon"></i>
+                    {% if uv_index == 1 or uv_index == 2 %}
+                        <p class="uv-index uv-low">{{ uv_index }} (Low)</p>
+                    {% elif uv_index == 3 or uv_index == 4 or uv_index == 5 %}
+                        <p class="uv-index uv-moderate">{{ uv_index }} (Moderate)</p>
+                    {% elif uv_index == 6 or uv_index == 7 %}
+                        <p class="uv-index uv-high">{{ uv_index }} (High)</p>
+                    {% elif uv_index == 8 or uv_index == 9 or uv_index == 10 %}
+                        <p class="uv-index uv-very-high">{{ uv_index }} (Very High)</p>
+                    {% else %}
+                        <p class="uv-index uv-extreme">{{ uv_index }} (Extreme)</p>
+                    {% endif %}
                 </fieldset>
-                <fieldset class="weather-box humidity">
+                <fieldset class="weather-box center-horizontal humidity">
                     <legend class="box-title">Humidity</legend>
-                    <i class="fa-solid fa-water humidity-icon"></i>
+                    <i class="fa-solid fa-water item-icon"></i>
                     <p class="humidity-percentage">{{ humidity }}<span class="percentage">%</span></p>
+                </fieldset>
+                <fieldset class="weather-box center-horizontal air-quality">
+                    <legend class="box-title">Air quality</legend>
+                    <i class="fa-solid fa-head-side-mask item-icon"></i>
+                    {% if air_quality == 1 %}
+                        <p class="air-quality-index q-good">Good</p>
+                    {% elif air_quality == 2 %}
+                        <p class="air-quality-index q-moderate">Moderate</p>
+                    {% elif air_quality == 3 %}
+                        <p class="air-quality-index q-unhealthy-sensitive">Unhealthy for sensitive group</p>
+                    {% elif air_quality == 4 %}
+                        <p class="air-quality-index q-unhealthy">Unhealthy</p>
+                    {% elif air_quality == 5 %}
+                        <p class="air-quality-index q-very-unhealthy">Very Unhealthy</p>
+                    {% elif air_quality == 6 %}
+                    <p class="air-quality-index q-hazardous">Hazardous</p>
+                    {% endif %}
+                </fieldset>
+                <fieldset class="weather-box center-horizontal astronomy">
+                    <legend class="box-title">Sunrise/Sunset</legend>
+                    <i class="fa-regular fa-sun item-icon"></i>
+                    <p class>{{ sunrise }}</p>
+                    <i class="fa-solid fa-sun item-icon-2"></i>
+                    <p class>{{ sunset }}</p>
                 </fieldset>
             </div>
         {% endif %}
