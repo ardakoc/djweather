@@ -6,22 +6,33 @@ from django.shortcuts import render, HttpResponse
 from djweather.settings import WEATHER_API_KEY, GEOLOCATION_API_KEY
 
 
+def get_location_data(request, city):
+    response = requests.get(
+        f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
+    response = response.json()
+    return response['location']
 
+
+def get_current_weather_data(request, city):
+    response = requests.get(
+        f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
+    response = response.json()
+    return response['current']
+
+
+def get_astronomy_data(request, city):
+    response = requests.get(
+        f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
+    response = response.json()
+    return response['astronomy']['astro']
 
 
 def home(request):
     city = find_location(request)
     if city != None:
-        response = requests.get(
-            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
-        response = response.json()
-        response1 = requests.get(
-            f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
-        response1 = response1.json()
-
-        location = response['location']
-        current = response['current']
-        astronomy = response1['astronomy']['astro']
+        location = get_location_data(request, city)
+        current = get_current_weather_data(request, city)
+        astronomy = get_astronomy_data(request, city)
 
         return render(request, "home.html", {
             'location': location['name'],
@@ -47,16 +58,9 @@ def search(request):
         if city == '':
             city = find_location(request)
         elif city != None:
-            response = requests.get(
-                f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
-            response = response.json()
-            response1 = requests.get(
-                f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
-            response1 = response1.json()
-
-            location = response['location']
-            current = response['current']
-            astronomy = response1['astronomy']['astro']
+            location = get_location_data(request, city)
+            current = get_current_weather_data(request, city)
+            astronomy = get_astronomy_data(request, city)
 
             return render(request, "search.html", {
                 'search': True,
@@ -101,17 +105,10 @@ def get_capitals(request):
     ]
 
     capitals = {}
-    for city in cities:
-        response = requests.get(
-            f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
-        response = response.json()
-        response1 = requests.get(
-            f'https://api.weatherapi.com/v1/astronomy.json?key={WEATHER_API_KEY}&q={city}&dt=')
-        response1 = response1.json()
-
-        location = response['location']
-        current = response['current']
-        astronomy = response1['astronomy']['astro']
+    for city in cities:        
+        location = get_location_data(request, city)
+        current = get_current_weather_data(request, city)
+        astronomy = get_astronomy_data(request, city)
 
         capitals[city] = {
                 'location': location['name'],
