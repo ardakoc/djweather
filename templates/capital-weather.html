@@ -1,4 +1,4 @@
-<div class="weather">
+<div class="weather capital">
     <div class="location">
         <h1 class="location-name">{{ value.location }}</h1>
         <p class="localtime">{{ value.localtime }}</p>
@@ -57,9 +57,25 @@
     </fieldset>
     <fieldset class="weather-box center-horizontal astronomy">
         <legend class="box-title">Sunrise/Sunset</legend>
-        <i class="fa-regular fa-sun item-icon"></i>
+        <i class="fa-regular fa-sun sunrise item-icon"></i>
         <p class>{{ value.sunrise }}</p>
-        <i class="fa-solid fa-sun item-icon-2"></i>
+        <i class="fa-solid fa-sun sunset item-icon-2"></i>
         <p class>{{ value.sunset }}</p>
+    </fieldset>
+    <fieldset class="weather-box center-horizontal forecast">
+        <legend class="box-title">Today's forecast</legend>
+        {% for day in value.forecast|slice:":1" %}
+            <div class="hours">
+                {% for hour in day.hour %}
+                    <div class="hour-weather-box">
+                        <p class="hour">{{ hour.time|slice:"-5:-3" }}</p>
+                        <img class="condition-description-icon" src="{{ hour.condition.icon }}" 
+                            {% if "night" in hour.condition.icon and "113" in hour.condition.icon %}style="width: 34px;"
+                            {% else %}style="padding: 7px 0;"{% endif %} />
+                        <p class="hour-degree">{{ hour.temp_c }}°C</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
     </fieldset>
 </div>

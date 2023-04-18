@@ -62,4 +62,20 @@
         <i class="fa-solid fa-sun sunset item-icon-2"></i>
         <p class>{{ sunset }}</p>
     </fieldset>
+    <fieldset class="weather-box center-horizontal forecast">
+        <legend class="box-title">Today's forecast</legend>
+        {% for day in forecast|slice:":1" %}
+            <div class="hours">
+                {% for hour in day.hour %}
+                    <div class="hour-weather-box">
+                        <p class="hour">{{ hour.time|slice:"-5:-3" }}</p>
+                        <img class="condition-description-icon" src="{{ hour.condition.icon }}" 
+                            {% if "night" in hour.condition.icon and "113" in hour.condition.icon %}style="width: 34px;"
+                            {% else %}style="padding: 7px 0;"{% endif %} />
+                        <p class="hour-degree">{{ hour.temp_c }}°C</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </fieldset>
 </div>

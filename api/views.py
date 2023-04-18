@@ -8,7 +8,7 @@ from djweather.settings import WEATHER_API_KEY, GEOLOCATION_API_KEY
 
 def get_location_data(request, city):
     response = requests.get(
-        f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=yes')
+        f'https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={city}&aqi=no')
     response = response.json()
     return response['location']
 
@@ -27,12 +27,20 @@ def get_astronomy_data(request, city):
     return response['astronomy']['astro']
 
 
+def get_forecast_data(request, city):
+    response = requests.get(
+        f'https://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={city}&days=3&aqi=no&alerts=yes')
+    response = response.json()
+    return response['forecast']['forecastday']
+
+
 def home(request):
     city = find_location(request)
     if city != None:
         location = get_location_data(request, city)
         current = get_current_weather_data(request, city)
         astronomy = get_astronomy_data(request, city)
+        forecast = get_forecast_data(request, city)
 
         return render(request, "home.html", {
             'location': location['name'],
@@ -47,7 +55,8 @@ def home(request):
             'uv_index': current['uv'],
             'air_quality': current['air_quality']['us-epa-index'],
             'sunrise': astronomy['sunrise'],
-            'sunset': astronomy['sunset'] })
+            'sunset': astronomy['sunset'],
+            'forecast': forecast, })
     return render(request, 'home.html')
 
 
@@ -61,6 +70,7 @@ def search(request):
             location = get_location_data(request, city)
             current = get_current_weather_data(request, city)
             astronomy = get_astronomy_data(request, city)
+            forecast = get_forecast_data(request, city)
 
             return render(request, "search.html", {
                 'search': True,
@@ -76,7 +86,8 @@ def search(request):
                 'uv_index': current['uv'],
                 'air_quality': current['air_quality']['us-epa-index'],
                 'sunrise': astronomy['sunrise'],
-                'sunset': astronomy['sunset'] })
+                'sunset': astronomy['sunset'],
+                'forecast': forecast, })
         return render(request, 'search.html')
     
 
@@ -109,6 +120,7 @@ def get_capitals(request):
         location = get_location_data(request, city)
         current = get_current_weather_data(request, city)
         astronomy = get_astronomy_data(request, city)
+        forecast = get_forecast_data(request, city)
 
         capitals[city] = {
                 'location': location['name'],
@@ -124,7 +136,8 @@ def get_capitals(request):
                 'uv_index': current['uv'],                 
                 'air_quality': current['air_quality']['us-epa-index'],
                 'sunrise': astronomy['sunrise'],
-                'sunset': astronomy['sunset'] }
+                'sunset': astronomy['sunset'],
+                'forecast': forecast, }
     return render(request, 'capitals.html', {'capitals': capitals})
     
 
