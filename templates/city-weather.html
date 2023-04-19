@@ -71,9 +71,9 @@
                         <p class="hour">{{ hour.time|slice:"-5:-3" }}</p>
                         <img class="condition-description-icon" src="{{ hour.condition.icon }}" 
                         {% if "night" in hour.condition.icon and "113" in hour.condition.icon %}
-                            style="width: 44px; margin: 0 -5px;"
+                            style="width: 44px; margin: 0 -10px;"
                         {% elif "113" in hour.condition.icon %}
-                            style="width: 34px; padding: 5px 0;"
+                            style="width: 34px; padding: 5px 0; margin: 0 -10px;"
                         {% else %}
                             style="padding: 9px 0;"
                         {% endif %} />
