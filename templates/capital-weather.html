@@ -70,11 +70,41 @@
                     <div class="hour-weather-box">
                         <p class="hour">{{ hour.time|slice:"-5:-3" }}</p>
                         <img class="condition-description-icon" src="{{ hour.condition.icon }}" 
-                            {% if "night" in hour.condition.icon and "113" in hour.condition.icon %}style="width: 34px;"
-                            {% else %}style="padding: 7px 0;"{% endif %} />
-                        <p class="hour-degree">{{ hour.temp_c }}°C</p>
+                        {% if "night" in hour.condition.icon and "113" in hour.condition.icon %}
+                            style="width: 44px; margin: 0 -5px;"
+                        {% elif "113" in hour.condition.icon %}
+                            style="width: 34px; padding: 5px 0;"
+                        {% else %}
+                            style="padding: 9px 0;"
+                        {% endif %} />
+                        <p>{{ hour.temp_c|stringformat:"d"|slice:":3" }}°C</p>
                     </div>
                 {% endfor %}
+            </div>
+        {% endfor %}
+    </fieldset>
+    <fieldset class="weather-box center-horizontal forecast-3-day">
+        <legend class="box-title">3-day forecast</legend>
+        {% for day in value.forecast %}
+            <div class="forecast-day">
+                <p class="day-name">
+                    {% if forloop.counter == 1 %}
+                        Today
+                    {% elif forloop.counter == 2 %}
+                        {{ value.forecast_days.0 }}
+                    {% elif forloop.counter == 3%}
+                        {{ value.forecast_days.1 }}
+                    {% endif %}
+                </p>
+                <img class="condition-description-icon" src="{{ day.day.condition.icon }}" 
+                {% if "night" in day.day.condition.icon and "113" in day.day.condition.icon %}
+                    style="width: 44px;;"
+                {% elif "113" in day.day.condition.icon %}
+                    style="width: 34px; padding: 5px 0;"
+                {% else %}
+                    style="padding: 9px 0;"
+                {% endif %} />
+                <p>{{ day.day.mintemp_c|stringformat:"d"|slice:":3" }}°C / {{ day.day.maxtemp_c|stringformat:"d"|slice:":3" }}°C</p>
             </div>
         {% endfor %}
     </fieldset>

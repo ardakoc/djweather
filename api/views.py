@@ -1,5 +1,6 @@
 import json
 import requests
+import datetime
 
 from django.shortcuts import render, HttpResponse
 
@@ -41,6 +42,7 @@ def home(request):
         current = get_current_weather_data(request, city)
         astronomy = get_astronomy_data(request, city)
         forecast = get_forecast_data(request, city)
+        forecast_days = get_forecast_days(location['localtime'])
 
         return render(request, "home.html", {
             'location': location['name'],
@@ -56,7 +58,8 @@ def home(request):
             'air_quality': current['air_quality']['us-epa-index'],
             'sunrise': astronomy['sunrise'],
             'sunset': astronomy['sunset'],
-            'forecast': forecast, })
+            'forecast': forecast,
+            'forecast_days': forecast_days })
     return render(request, 'home.html')
 
 
@@ -71,6 +74,7 @@ def search(request):
             current = get_current_weather_data(request, city)
             astronomy = get_astronomy_data(request, city)
             forecast = get_forecast_data(request, city)
+            forecast_days = get_forecast_days(location['localtime'])
 
             return render(request, "search.html", {
                 'search': True,
@@ -87,7 +91,8 @@ def search(request):
                 'air_quality': current['air_quality']['us-epa-index'],
                 'sunrise': astronomy['sunrise'],
                 'sunset': astronomy['sunset'],
-                'forecast': forecast, })
+                'forecast': forecast,
+                'forecast_days': forecast_days })
         return render(request, 'search.html')
     
 
@@ -121,6 +126,7 @@ def get_capitals(request):
         current = get_current_weather_data(request, city)
         astronomy = get_astronomy_data(request, city)
         forecast = get_forecast_data(request, city)
+        forecast_days = get_forecast_days(location['localtime'])
 
         capitals[city] = {
                 'location': location['name'],
@@ -137,7 +143,8 @@ def get_capitals(request):
                 'air_quality': current['air_quality']['us-epa-index'],
                 'sunrise': astronomy['sunrise'],
                 'sunset': astronomy['sunset'],
-                'forecast': forecast, }
+                'forecast': forecast,
+                'forecast_days': forecast_days }
     return render(request, 'capitals.html', {'capitals': capitals})
     
 
@@ -161,3 +168,10 @@ def get_geolocation_data(ip_address):
     # response = requests.get(f'{api_url}&ip_address={ip_address}')
     response = requests.get(f'{api_url}')
     return response.content
+
+
+def get_forecast_days(date_str):
+    today = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
+    day_2 = today + datetime.timedelta(1)
+    day_3 = today + datetime.timedelta(2)
+    return [day_2.strftime("%A"), day_3.strftime("%A")]

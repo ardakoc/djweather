@@ -16,6 +16,7 @@
 .weather {
     max-width: 900px;
     padding: 32px;
+    margin-bottom: 64px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: #959da533 0px 8px 24px;
@@ -65,7 +66,7 @@
 }
 
 .condition-description-icon {
-    width: 20px;
+    width: 26px;
     height: auto;
 
     grid-column: 1;
@@ -297,6 +298,27 @@
 } 
 
 .hour {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.forecast-3-day {
+    font-size: 14px;
+    grid-column: 2/4;
+    grid-row: 5;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.forecast-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.day-name {
     font-size: 14px;
     font-weight: 700;
 }
