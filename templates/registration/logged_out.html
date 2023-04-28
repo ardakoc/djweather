@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
-  <p>Logged out!</p>
-  <a href="{% url 'login'%}">Click here to login again.</a>
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    
+    <div class="registration-form">
+        <h2>Logged out successfully</h2>
+        <div class="form-action">
+            <a href="{% url 'login'%}">Click here to login again.</a>
+        </div>
+    </div>
 {% endblock %}
