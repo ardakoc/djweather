@@ -2,7 +2,7 @@ import json
 import requests
 import datetime
 
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 
 from djweather.settings import WEATHER_API_KEY, GEOLOCATION_API_KEY
 
