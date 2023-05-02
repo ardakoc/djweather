@@ -10,9 +10,13 @@
 
     <section class="favorites-page">
         <h2 class="favorites-page-title">The weather in your favorite cities:</h2>
-        {% for city, value in favorites.items %}
-            {% include 'favorite-weather.html' %}
-        {% endfor %}
+        {% if favorites.items %}
+            {% for city, value in favorites.items %}
+                {% include 'favorite-weather.html' %}
+            {% endfor %}
+        {% else %}
+        <p>You haven't added a city to your favorites yet.</p>
+        {% endif %}
     </section>
     
 {% endblock content %}

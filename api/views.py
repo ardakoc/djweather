@@ -154,10 +154,12 @@ def get_capitals(request):
 
 
 def get_favorites(request):
-    favorite_objects = list(Favorite.objects.filter(user=request.user).values())
+    favorite_objects = list(
+        Favorite.objects.filter(user=request.user).values())
     favorites = {}
     if favorite_objects:
         for fav in favorite_objects:
+            print(fav)
             location = get_location_data(request, fav['location'])
             current = get_current_weather_data(request, fav['location'])
             astronomy = get_astronomy_data(request, fav['location'])
@@ -176,15 +178,13 @@ def get_favorites(request):
                     'wind': current['wind_kph'],
                     'wind_direction': current['wind_dir'],
                     'humidity': current['humidity'],
-                    'uv_index': current['uv'],                 
+                    'uv_index': current['uv'],
                     'air_quality': current['air_quality']['us-epa-index'],
                     'sunrise': astronomy['sunrise'],
                     'sunset': astronomy['sunset'],
                     'forecast': forecast,
                     'forecast_days': forecast_days,
                     'favorite': favorite }
-    else:
-        favorites = "You haven't added a city to your favorites yet."
     return render(request, 'favorites.html', {'favorites': favorites})
     
 
@@ -219,7 +219,8 @@ def get_forecast_days(date_str):
 
 def get_favorite_data(request, location):
     if request.user.id:
-        fav_object = Favorite.objects.filter(user=request.user, location=location)
+        fav_object = Favorite.objects.filter(
+            user=request.user, location__icontains=location)
         if fav_object:
             return fav_object
     return None
