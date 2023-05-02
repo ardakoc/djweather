@@ -20,9 +20,10 @@
                 <li><a title="Home" class="menu-logo" href="{% url 'home' %}"><i class="fa-solid fa-cloud-sun-rain"></i></a></li>
                 <div class="nav-buttons">
                     <li><a title="Search location" class="menu-btn" href="{% url 'search' %}"><i class="fa-solid fa-magnifying-glass"></i></a></li>
-                    <li><a title="My favorite places" class="menu-btn" href="#"><i class="fa-regular fa-heart"></i></a></li>
+                    {% if user.is_authenticated %}
+                        <li><a title="My favorite cities" class="menu-btn" href="{% url 'favorites' %}"><i class="fa-regular fa-heart"></i></a></li>
+                    {% endif %}
                     <li><a title="Capitals" class="menu-btn" href="{% url 'capitals' %}"><i class="fa-solid fa-earth-americas"></i></a></li>
-                    <li><a title="Random city" class="menu-btn" href="#"><i class="fa-solid fa-shuffle"></i></a></li>
                     {% if user.is_authenticated %}
                         <li><a title="Sign out" class="menu-btn sign-out" href="{% url 'logout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
                     {% else %}

@@ -103,24 +103,24 @@ def get_capitals(request):
     cities = [
         'Washington',
         'London',
-        # 'Rome',
-        # 'Paris',
-        # 'Madrid',
-        # 'Moscow',
-        # 'Berlin',
-        # 'Amsterdam',
-        # 'Bern',
-        # 'Ankara',
-        # 'Sydney',
-        # 'Abu Dhabi',
-        # 'Doha',
-        # 'Riyadh',
-        # 'Jerusalem',
-        # 'Beijing',
-        # 'Tokyo',
-        # 'Ottawa',
-        # 'Buenos Aires',
-        # 'New Delhi',
+        'Rome',
+        'Paris',
+        'Madrid',
+        'Moscow',
+        'Berlin',
+        'Amsterdam',
+        'Bern',
+        'Ankara',
+        'Sydney',
+        'Abu Dhabi',
+        'Doha',
+        'Riyadh',
+        'Jerusalem',
+        'Beijing',
+        'Tokyo',
+        'Ottawa',
+        'Buenos Aires',
+        'New Delhi',
     ]
 
     capitals = {}
@@ -143,7 +143,7 @@ def get_capitals(request):
                 'wind': current['wind_kph'],
                 'wind_direction': current['wind_dir'],
                 'humidity': current['humidity'],
-                'uv_index': current['uv'],                 
+                'uv_index': current['uv'],
                 'air_quality': current['air_quality']['us-epa-index'],
                 'sunrise': astronomy['sunrise'],
                 'sunset': astronomy['sunset'],
@@ -151,6 +151,41 @@ def get_capitals(request):
                 'forecast_days': forecast_days,
                 'favorite': favorite }
     return render(request, 'capitals.html', {'capitals': capitals})
+
+
+def get_favorites(request):
+    favorite_objects = list(Favorite.objects.filter(user=request.user).values())
+    favorites = {}
+    if favorite_objects:
+        for fav in favorite_objects:
+            location = get_location_data(request, fav['location'])
+            current = get_current_weather_data(request, fav['location'])
+            astronomy = get_astronomy_data(request, fav['location'])
+            forecast = get_forecast_data(request, fav['location'])
+            forecast_days = get_forecast_days(location['localtime'])
+            favorite = get_favorite_data(request, fav['location'])
+
+            favorites[fav['location']] = {
+                    'location': location['name'],
+                    'country': location['country'],
+                    'localtime': location['localtime'],
+                    'temperature': current['temp_c'],
+                    'feels_like': current['feelslike_c'],
+                    'condition': current['condition']['text'],
+                    'icon': current['condition']['icon'],
+                    'wind': current['wind_kph'],
+                    'wind_direction': current['wind_dir'],
+                    'humidity': current['humidity'],
+                    'uv_index': current['uv'],                 
+                    'air_quality': current['air_quality']['us-epa-index'],
+                    'sunrise': astronomy['sunrise'],
+                    'sunset': astronomy['sunset'],
+                    'forecast': forecast,
+                    'forecast_days': forecast_days,
+                    'favorite': favorite }
+    else:
+        favorites = "You haven't added a city to your favorites yet."
+    return render(request, 'favorites.html', {'favorites': favorites})
     
 
 def find_location(request):
