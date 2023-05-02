@@ -5,6 +5,7 @@ import datetime
 from django.shortcuts import render
 
 from djweather.settings import WEATHER_API_KEY, GEOLOCATION_API_KEY
+from account.models import Favorite
 
 
 def get_location_data(request, city):
@@ -43,6 +44,7 @@ def home(request):
         astronomy = get_astronomy_data(request, city)
         forecast = get_forecast_data(request, city)
         forecast_days = get_forecast_days(location['localtime'])
+        favorite = get_favorite_data(request, city)
 
         return render(request, "home.html", {
             'location': location['name'],
@@ -59,7 +61,8 @@ def home(request):
             'sunrise': astronomy['sunrise'],
             'sunset': astronomy['sunset'],
             'forecast': forecast,
-            'forecast_days': forecast_days })
+            'forecast_days': forecast_days,
+            'favorite': favorite })
     return render(request, 'home.html')
 
 
@@ -67,14 +70,13 @@ def search(request):
     if request.method == 'GET':
         city = request.GET.get('city')
 
-        if city == '':
-            city = find_location(request)
-        elif city != None:
+        if city != None:
             location = get_location_data(request, city)
             current = get_current_weather_data(request, city)
             astronomy = get_astronomy_data(request, city)
             forecast = get_forecast_data(request, city)
             forecast_days = get_forecast_days(location['localtime'])
+            favorite = get_favorite_data(request, city)
 
             return render(request, "search.html", {
                 'search': True,
@@ -92,32 +94,33 @@ def search(request):
                 'sunrise': astronomy['sunrise'],
                 'sunset': astronomy['sunset'],
                 'forecast': forecast,
-                'forecast_days': forecast_days })
+                'forecast_days': forecast_days,
+                'favorite': favorite })
         return render(request, 'search.html')
     
 
 def get_capitals(request):
     cities = [
-        'Washington DC',
+        'Washington',
         'London',
-        'Rome',
-        'Paris',
-        'Madrid',
-        'Moscow',
-        'Berlin',
-        'Amsterdam',
-        'Bern',
-        'Ankara',
-        'Sydney',
-        'Abu Dhabi',
-        'Doha',
-        'Riyadh',
-        'Jerusalem',
-        'Beijing',
-        'Tokyo',
-        'Ottawa',
-        'Buenos Aires',
-        'New Delhi',
+        # 'Rome',
+        # 'Paris',
+        # 'Madrid',
+        # 'Moscow',
+        # 'Berlin',
+        # 'Amsterdam',
+        # 'Bern',
+        # 'Ankara',
+        # 'Sydney',
+        # 'Abu Dhabi',
+        # 'Doha',
+        # 'Riyadh',
+        # 'Jerusalem',
+        # 'Beijing',
+        # 'Tokyo',
+        # 'Ottawa',
+        # 'Buenos Aires',
+        # 'New Delhi',
     ]
 
     capitals = {}
@@ -127,6 +130,7 @@ def get_capitals(request):
         astronomy = get_astronomy_data(request, city)
         forecast = get_forecast_data(request, city)
         forecast_days = get_forecast_days(location['localtime'])
+        favorite = get_favorite_data(request, city)
 
         capitals[city] = {
                 'location': location['name'],
@@ -144,7 +148,8 @@ def get_capitals(request):
                 'sunrise': astronomy['sunrise'],
                 'sunset': astronomy['sunset'],
                 'forecast': forecast,
-                'forecast_days': forecast_days }
+                'forecast_days': forecast_days,
+                'favorite': favorite }
     return render(request, 'capitals.html', {'capitals': capitals})
     
 
@@ -175,3 +180,11 @@ def get_forecast_days(date_str):
     day_2 = today + datetime.timedelta(1)
     day_3 = today + datetime.timedelta(2)
     return [day_2.strftime("%A"), day_3.strftime("%A")]
+
+
+def get_favorite_data(request, location):
+    if request.user.id:
+        fav_object = Favorite.objects.filter(user=request.user, location=location)
+        if fav_object:
+            return fav_object
+    return None

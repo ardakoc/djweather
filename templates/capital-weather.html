@@ -1,6 +1,21 @@
 <div class="weather capital">
     <div class="location">
-        <h1 class="location-name">{{ value.location }}</h1>
+        {% if user.is_authenticated %}
+            <form action="{% url 'favorite' %}" class="location-flex-section" method="post">
+                {% csrf_token %}
+                <h1 class="location-name">{{ value.location }}</h1>
+                <input name="location-name" value="{{ value.location }}" hidden>
+                <button type="submit" class="fav-action">
+                    {% if value.favorite == None %}
+                        <i class="fa-regular fa-bookmark"></i>
+                    {% else %}
+                        <i class="fa-solid fa-bookmark"></i>
+                    {% endif %}
+                </button>
+            </form>
+        {% else %}
+            <h1 class="location-name">{{ value.location }}</h1>
+        {% endif %}
         <p class="localtime">{{ value.localtime }}</p>
         <p class="temperature">{{ value.temperature|floatformat }}°C</p>
     </div>
@@ -33,6 +48,8 @@
             <p class="uv-index uv-extreme">{{ value.uv_index }} (Extreme)</p>
         {% endif %}
     </fieldset>
+
+    {% comment %} evc, kylo, rigel-sirius türevleri kaç var? {% endcomment %}
     <fieldset class="weather-box center-horizontal humidity">
         <legend class="box-title">Humidity</legend>
         <i class="fa-solid fa-water item-icon"></i>
