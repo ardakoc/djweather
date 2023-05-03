@@ -159,7 +159,6 @@ def get_favorites(request):
     favorites = {}
     if favorite_objects:
         for fav in favorite_objects:
-            print(fav)
             location = get_location_data(request, fav['location'])
             current = get_current_weather_data(request, fav['location'])
             astronomy = get_astronomy_data(request, fav['location'])
