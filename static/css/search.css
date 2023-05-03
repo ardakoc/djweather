@@ -1,4 +1,6 @@
 .search-page {
+    margin-bottom: 32px;
+    
     display: flex;
     flex-direction: column;
     justify-content: center;

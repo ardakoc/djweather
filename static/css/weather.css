@@ -16,7 +16,7 @@
 .weather {
     max-width: 900px;
     padding: 32px;
-    margin-bottom: 64px;
+    margin-bottom: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: #959da533 0px 8px 24px;
